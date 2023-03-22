@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
     }
     FILE* file = fopen(argv[1], "rb");
     if(file == NULL) {
-        printf("Failed to open file '%s' for writing\nExiting...\n", argv[1]);
+        printf("Failed to open file '%s' for reading\nExiting...\n", argv[1]);
         exit(-1);
     }
     uint8_t* buf;

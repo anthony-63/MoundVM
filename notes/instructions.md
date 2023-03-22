@@ -30,13 +30,13 @@
     * `ld32`: Move `AAAAAAAA` into bank `BB` and address `CCCC`
     * `AA` `AA` `AA` `AA` `BB` `CC` `CC` 
 * `07`
-    * `add`: Add register `AA` and `BB`,  and store the result into `AA`
+    * `add`: Add register `AA` and `BB`, and store the result into `AA`
     * `AA` `BB`
 * `08`
-    * `sub`: Subtract register `AA` and `BB`,  and store the result into `AA`
+    * `sub`: Subtract register `AA` and `BB`, and store the result into `AA`
     * `AA` `BB`
 * `09`
-    * `mul`: Multiply register `AA` and `BB`,  and store the result into `AA`
+    * `mul`: Multiply register `AA` and `BB`, and store the result into `AA`
     * `AA` `BB`
 * `0A`
     * `jmp`: Branch to bank `AA` and address `BBBB`
@@ -62,3 +62,26 @@
 * `11`
     * `ldr`: Load register `AA` to bank `BB` and address `CCCC`
     * `AA` `BB` `CC` `CC`
+* `12`
+    * `call`: Call a function at bank `AA` address `BBBB`
+    * `AA` `BB` `BB`
+* `13`
+    * `ret`: Return from function
+* `14`
+    * `movr` Move register `AA` into register `BB`. **NOTE: This does NOT clear register `AA`**
+    * `AA` `BB`
+* `15`
+    * `shl`: Shift register `AA` left
+    * `AA`
+* `16`
+    * `shr`: Shift register `AA` right
+    * `AA`
+* `17`
+    * `and`: And register `AA` and `BB`, and store the result in `AA`
+    * `AA` `BB`
+* `18`
+    * `or`: Or register `AA` and `BB`, and store the result in `AA`
+    * `AA` `BB`
+* `19`
+    * `xor`: Xor register `AA` and `BB`, and store the result in `AA`
+    * `AA` `BB`

@@ -14,6 +14,7 @@ typedef struct {
     uint32_t stack[STACK_SIZE];
     uint32_t pc;
     uint32_t pc_bank;
+    uint32_t sp;
 } mound_cpu;
 
 mound_cpu* create_mound_cpu();

@@ -7,4 +7,4 @@ $(OUT): $(SRC)
 	gcc $(SRC) -o $(OUT) $(FLAGS)
 
 test: $(OUT)
-	./$(OUT) programs/test.mvm
+	./$(OUT) programs/test/test.mvm > programs/test/test.output
