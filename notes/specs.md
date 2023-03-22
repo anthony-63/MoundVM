@@ -6,4 +6,10 @@
 
 - `0xFF` Banks of `0xFFFF` bytes of memory
 
-### ALL PROGRAMS ARE STORED INTO BANK 0xF0 AND ABOVE
+## Memory Layout
+### Adressing format: Bank Address (ex. `f0` `0001`)
+`00`-`df` `0000`-`ffff`: General purpose memory to store things in
+
+`e0`-`ef` `0000`-`ffff`: Video memory (WIP)
+
+`f0`-`ff` `0000`-`ffff`: Program memory

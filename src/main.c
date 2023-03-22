@@ -12,15 +12,15 @@ int main(int argc, char** argv) {
     }
     FILE* file = fopen(argv[1], "rb");
     if(file == NULL) {
-        printf("Failed to open file '%s' for writing\nExiting...\n");
+        printf("Failed to open file '%s' for writing\nExiting...\n", argv[1]);
         exit(-1);
     }
-    char* buf;
+    uint8_t* buf;
     long l;
     fseek(file, 0, SEEK_END);
     l = ftell(file);
     rewind(file);
-    buf = (char*)malloc(l * sizeof(char));
+    buf = (char*)malloc(l * sizeof(uint8_t));
     fread(buf, l, 1, file);
     fclose(file);
     mound_cpu* cpu = create_mound_cpu();
