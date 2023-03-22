@@ -1,7 +1,7 @@
 OUT = mound.exe
 SRC = src/*.c src/*/*.c
 
-FLAGS = -O3 -Wall
+FLAGS = -O2
 
 $(OUT): $(SRC)
 	gcc $(SRC) -o $(OUT) $(FLAGS)

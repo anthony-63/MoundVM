@@ -21,13 +21,13 @@
     * `mov32`: Move `AAAAAAAA` into register number `BB`
     * `AA` `AA` `AA` `AA` `BB`
 * `04`
-    * `ld8`: Move `AA` into bank `BB` and address `CC` `CC`
+    * `ld8`: Move `AA` into bank `BB` and address `CCCC`
     * `AA` `BB` `CC` `CC` 
 * `05`
-    * `ld16`: Move `AAAA` into bank `BB` and address `CC` `CC`
+    * `ld16`: Move `AAAA` into bank `BB` and address `CCCC`
     * `AA` `AA` `BB` `CC` `CC` 
 * `06`
-    * `ld32`: Move `AAAAAAAA` into bank `BB` and address `CC` `CC`
+    * `ld32`: Move `AAAAAAAA` into bank `BB` and address `CCCC`
     * `AA` `AA` `AA` `AA` `BB` `CC` `CC` 
 * `07`
     * `add`: Add register `AA` and `BB`,  and store the result into `AA`
@@ -59,3 +59,6 @@
 * `10`
     * `pop`: Pop to register `AA`
     * `AA`
+* `11`
+    * `ldr`: Load register `AA` to bank `BB` and address `CCCC`
+    * `AA` `BB` `CC` `CC`
