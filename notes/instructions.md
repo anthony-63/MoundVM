@@ -9,6 +9,8 @@
 
 * `00`
     * `hlt`: Halt
+* `FF`
+    * `nop`: No operation... does nothing.
 * `01`
     * `mov8`: Move `AA` into register number `BB`
     * `AA` `BB`
