@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include "cpu/cpu.h"
 
-void usage() {
-    printf("Usage:\nmound.exe <mvm file>\n");
+void usage(char* filename) {
+    printf("Usage:\n%s <mvm file>\n", filename);
 }
 
 int main(int argc, char** argv) {
     if(argc != 2) {
-        usage();
+        usage(argv[0]);
     }
     FILE* file = fopen(argv[1], "rb");
     if(file == NULL) {

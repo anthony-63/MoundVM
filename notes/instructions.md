@@ -11,12 +11,6 @@
     * `hlt`: Halt
 * `FF`
     * `nop`: No operation... does nothing.
-* `01`
-    * `mov8`: Move `AA` into register number `BB`
-    * `AA` `BB`
-* `02`
-    * `mov16`: Move `AAAA` into register number `BB`
-    * `AA` `AA` `BB`
 * `03`
     * `mov32`: Move `AAAAAAAA` into register number `BB`
     * `AA` `AA` `AA` `AA` `BB`

@@ -10,7 +10,7 @@
 
 typedef struct {
     uint32_t regs[0xFF];
-    uint8_t mem[BANK_COUNT][BYTES_PER_BANK];
+    uint8_t mem[BANK_COUNT+1][BYTES_PER_BANK];
     uint32_t stack[STACK_SIZE];
     uint32_t pc;
     uint32_t pc_bank;

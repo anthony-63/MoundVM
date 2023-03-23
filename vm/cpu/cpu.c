@@ -8,7 +8,9 @@ typedef enum {
 } MoundException;
 
 void dump_registers(mound_cpu* cpu) {
-    printf("------- MOUNDVM REGISTER DUMP -------");
+
+    printf("------- MOUNDVM REGISTER DUMP -------\n");
+    printf("pc: %02x %04x", cpu->pc_bank, cpu->pc);
     for(int i = 0; i < 255 ; i++) {
         if(i % 8 == 0) printf("\n");
         printf("r%02x: %08x\t", i, cpu->regs[i]);
@@ -54,25 +56,11 @@ mound_cpu* create_mound_cpu() {
 }
 
 void mound_cpu_run(mound_cpu* cpu) {
+    cpu->pc_bank = 0xf0;
+
     while(1) {
         switch(cpu->mem[cpu->pc_bank][cpu->pc]) {
             case 0xFF: break; // nop: do nothing
-            case 0x01: { // mov8
-                printf("mov8\n");
-                uint8_t aa = cpu->mem[cpu->pc_bank][++cpu->pc];
-                printf("aa: %02x\n", aa);
-                uint8_t bb = cpu->mem[cpu->pc_bank][++cpu->pc];
-                printf("bb: %02x\n", bb);
-                cpu->regs[bb] = aa;
-            } break;
-            case 0x02: { // mov16
-                printf("mov16\n");
-                uint16_t aaaa = (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
-                printf("aaaa: %04x\n", aaaa);
-                uint8_t bb = (cpu->mem[cpu->pc_bank][++cpu->pc]);
-                printf("bb: %02x\n", bb);
-                cpu->regs[bb] = aaaa;
-            } break;
             case 0x03: { // mov32
                 printf("mov32\n");
                 uint32_t aaaaaaaa = (cpu->mem[cpu->pc_bank][++cpu->pc] << 24) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 16) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);

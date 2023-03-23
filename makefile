@@ -1,10 +1,23 @@
-OUT = mound.exe
-SRC = src/*.c src/*/*.c
+OUTVM = mound.exe
+OUTASM = mvmasm.exe
+SRCVM = vm/*.c vm/*/*.c
+SRCASM = asm/mvmasm.py
+FLAGS = -g
 
-FLAGS = -O2
+all: $(OUTVM) $(OUTASM)
 
-$(OUT): $(SRC)
-	gcc $(SRC) -o $(OUT) $(FLAGS)
+$(OUTVM): $(SRCVM)
+	gcc $(SRCVM) -o $(OUTVM) $(FLAGS)
 
-test: $(OUT)
-	./$(OUT) programs/test/test.mvm > programs/test/test.output
+$(OUTASM): $(SRCASM)
+	python -m PyInstaller --onefile $(SRCASM)
+	del *.spec
+	copy .\dist\mvmasm.exe .\mvmasm.exe
+	rmdir /s /q dist build
+
+vm: $(OUTVM)
+asm: $(OUTASM)
+
+test: $(OUTVM) $(OUTASM)
+	$(OUTASM) programs/test/test.mvmasm
+	$(OUTVM) programs/test/test.mvm > programs/test/test.output
