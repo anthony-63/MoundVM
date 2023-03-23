@@ -143,10 +143,10 @@ class MvmCompiler:
             print()
             
             f.write(bytes(fl[0:finished_addr]))
-if len(sys.argv) != 2:
-    print("Usage: \nmvmasm.exe <input mvmasm file>")
+if len(sys.argv) != 3:
+    print("Usage: \nmvmasm.exe <input mvmasm file> <output .mvm file>")
     exit(0)
 
 compiler = MvmCompiler(sys.argv[1])
 compiler.parse()
-compiler.output("programs/test/test.mvm")
+compiler.output(sys.argv[2])
