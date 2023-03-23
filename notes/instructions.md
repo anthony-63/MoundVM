@@ -36,16 +36,16 @@
     * `jmp`: Branch to bank `AA` and address `BBBB`
     * `AA` `BB` `BB`
 * `0B`
-    * `jmpe`: Branch to bank `CC` and address `DDDD`  if register `AA` is equal to register `BB`
+    * `jmpre`: Branch to bank `CC` and address `DDDD`  if register `AA` is equal to register `BB`
     * `AA` `BB` `CC` `DD` `DD` 
 * `0C`
-    * `jmpne`: Branch to bank `CC` and address `DDDD`  if register `AA` is not equal to register `BB`
+    * `jmprne`: Branch to bank `CC` and address `DDDD`  if register `AA` is not equal to register `BB`
     * `AA` `BB` `CC` `DD` `DD` 
 * `0D`
-    * `jmpl`: Branch to bank `CC` and address `DDDD`  if register `AA` is less than register `BB`
+    * `jmprl`: Branch to bank `CC` and address `DDDD`  if register `AA` is less than register `BB`
     * `AA` `BB` `CC` `DD` `DD` 
 * `0E`
-    * `jmpg`: Branch to bank `CC` and address `DDDD`  if register `AA` is greater than register `BB`
+    * `jmprg`: Branch to bank `CC` and address `DDDD`  if register `AA` is greater than register `BB`
     * `AA` `BB` `CC` `DD` `DD` 
 * `0F`
     * `push`: Push `AAAAAAAA` to stack
@@ -79,3 +79,21 @@
 * `19`
     * `xor`: Xor register `AA` and `BB`, and store the result in `AA`
     * `AA` `BB`
+* `20`
+    * `subi`: Subtract immidiate `BBBBBBBB` from register `AA`
+    * `AA` `BB` `BB` `BB` `BB`
+* `21`
+    * `addi`: Add immidiate `BBBBBBBB` to register `AA`
+    * `AA` `BB` `BB` `BB` `BB`
+* `22`
+    * `jmpie`: Branch to bank `CC` and address `DDDD`  if register `AA` is equal to immediate `BBBBBBBB`
+    * `AA` `BB` `BB` `BB` `BB` `CC` `DD` `DD` 
+* `23`
+    * `jmpine`: Branch to bank `CC` and address `DDDD`  if register `AA` is not equal to immediate `BBBBBBBB`
+    * `AA` `BB` `BB` `BB` `BB` `CC` `DD` `DD` 
+* `24`
+    * `jmpig`: Branch to bank `CC` and address `DDDD`  if register `AA` is greater than immediate `BBBBBBBB`
+    * `AA` `BB` `BB` `BB` `BB` `CC` `DD` `DD` 
+* `25`
+    * `jmpil`: Branch to bank `CC` and address `DDDD`  if register `AA` is less than immediate `BBBBBBBB`
+    * `AA` `BB` `BB` `BB` `BB` `CC` `DD` `DD` 

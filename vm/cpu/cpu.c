@@ -121,7 +121,7 @@ void mound_cpu_run(mound_cpu* cpu) {
                 printf("aa: %02x\n", aa);
                 uint8_t bb = cpu->mem[cpu->pc_bank][++cpu->pc];
                 printf("bb: %02x\n", bb);
-                cpu->regs[aa] *= cpu->regs[bb];
+                cpu->regs[aa] = cpu->regs[aa] * cpu->regs[bb];
             } break;
             case 0x0a: { // jmp
                 printf("jmp\n");
@@ -132,8 +132,8 @@ void mound_cpu_run(mound_cpu* cpu) {
                 cpu->pc_bank = aa;
                 cpu->pc = bbbb;
             } break;
-            case 0x0b: { // jmpe
-                printf("jmpe\n");
+            case 0x0b: { // jmpre
+                printf("jmpre\n");
                 uint8_t aa = cpu->mem[cpu->pc_bank][++cpu->pc];
                 printf("aa: %02x\n", aa);
                 uint8_t bb = cpu->mem[cpu->pc_bank][++cpu->pc];
@@ -144,8 +144,8 @@ void mound_cpu_run(mound_cpu* cpu) {
                 printf("dddd: %04x\n", dddd);
                 if(cpu->regs[aa] == cpu->regs[bb]) cpu->pc_bank = cc, cpu->pc = dddd;
             } break;
-            case 0x0c: { //jmpne
-                printf("jmpne\n");
+            case 0x0c: { //jmprne
+                printf("jmprne\n");
                 uint8_t aa = cpu->mem[cpu->pc_bank][++cpu->pc];
                 printf("aa: %02x\n", aa);
                 uint8_t bb = cpu->mem[cpu->pc_bank][++cpu->pc];
@@ -156,8 +156,8 @@ void mound_cpu_run(mound_cpu* cpu) {
                 printf("dddd: %04x\n", dddd);
                 if(cpu->regs[aa] != cpu->regs[bb]) cpu->pc_bank = cc, cpu->pc = dddd;
             } break;
-            case 0x0d: { // jmpl
-                printf("jmpl\n");
+            case 0x0d: { // jmprl
+                printf("jmprl\n");
                 uint8_t aa = cpu->mem[cpu->pc_bank][++cpu->pc];
                 printf("aa: %02x\n", aa);
                 uint8_t bb = cpu->mem[cpu->pc_bank][++cpu->pc];
@@ -168,8 +168,8 @@ void mound_cpu_run(mound_cpu* cpu) {
                 printf("dddd: %04x\n", dddd);
                 if(cpu->regs[aa] < cpu->regs[bb]) cpu->pc_bank = cc, cpu->pc = dddd;
             } break;
-            case 0x0e: { //jmpg
-                printf("jmpe\n");
+            case 0x0e: { //jmprg
+                printf("jmprg\n");
                 uint8_t aa = cpu->mem[cpu->pc_bank][++cpu->pc];
                 printf("aa: %02x\n", aa);
                 uint8_t bb = cpu->mem[cpu->pc_bank][++cpu->pc];
@@ -260,6 +260,70 @@ void mound_cpu_run(mound_cpu* cpu) {
                 uint8_t bb = cpu->mem[cpu->pc_bank][++cpu->pc];
                 printf("bb: %02x\n", bb);
                 cpu->regs[aa] ^= cpu->regs[bb];
+            } break;
+            case 0x20: { // subi 
+                printf("subi\n");
+                uint32_t aa = (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("aa: %08x\n", aa);
+                uint8_t bbbbbbbb =  (cpu->mem[cpu->pc_bank][++cpu->pc] << 24) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 16) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("bbbbbbbb: %02x\n", bbbbbbbb);
+                cpu->regs[aa] -= bbbbbbbb;
+            } break;
+            case 0x21: { // addi 
+                printf("addi\n");
+                uint32_t aa = (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("aa: %08x\n", aa);
+                uint8_t bbbbbbbb =  (cpu->mem[cpu->pc_bank][++cpu->pc] << 24) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 16) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("bbbbbbbb: %02x\n", bbbbbbbb);
+                cpu->regs[aa] += bbbbbbbb;
+            } break;
+            case 0x22: { // jmpie
+                printf("jmpie\n");
+                uint8_t aa = cpu->mem[cpu->pc_bank][++cpu->pc];
+                printf("aa: %02x\n", aa);
+                uint8_t bbbbbbbb = (cpu->mem[cpu->pc_bank][++cpu->pc] << 24) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 16) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("bbbbbbbb: %08x\n", bbbbbbbb);
+                uint8_t cc = (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("cc: %02x\n", cc);
+                uint16_t dddd = (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("dddd: %04x\n", dddd);
+                if(cpu->regs[aa] == bbbbbbbb) cpu->pc_bank = cc, cpu->pc = dddd;
+            } break;
+            case 0x23: { //jmpine
+                printf("jmpine\n");
+                uint8_t aa = cpu->mem[cpu->pc_bank][++cpu->pc];
+                printf("aa: %02x\n", aa);
+                uint8_t bbbbbbbb = (cpu->mem[cpu->pc_bank][++cpu->pc] << 24) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 16) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("bbbbbbbb: %08x\n", bbbbbbbb);
+                uint8_t cc = (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("cc: %02x\n", cc);
+                uint16_t dddd = (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("dddd: %04x\n", dddd);
+                if(cpu->regs[aa] != bbbbbbbb) cpu->pc_bank = cc, cpu->pc = dddd;
+            } break;
+            case 0x024: { // jmpil
+                printf("jmpil\n");
+                uint8_t aa = cpu->mem[cpu->pc_bank][++cpu->pc];
+                printf("aa: %02x\n", aa);
+                uint8_t bbbbbbbb = (cpu->mem[cpu->pc_bank][++cpu->pc] << 24) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 16) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("bbbbbbbb: %08x\n", bbbbbbbb);
+                uint8_t cc = (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("cc: %02x\n", cc);
+                uint16_t dddd = (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("dddd: %04x\n", dddd);
+                if(cpu->regs[aa] < bbbbbbbb) cpu->pc_bank = cc, cpu->pc = dddd;
+            } break;
+            case 0x25: { //jmpig
+                printf("jmpig\n");
+                uint8_t aa = cpu->mem[cpu->pc_bank][++cpu->pc];
+                printf("aa: %02x\n", aa);
+                uint8_t bbbbbbbb = (cpu->mem[cpu->pc_bank][++cpu->pc] << 24) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 16) | (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("bbbbbbbb: %08x\n", bbbbbbbb);
+                uint8_t cc = (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("cc: %02x\n", cc);
+                uint16_t dddd = (cpu->mem[cpu->pc_bank][++cpu->pc] << 8) | (cpu->mem[cpu->pc_bank][++cpu->pc]);
+                printf("dddd: %04x\n", dddd);
+                if(cpu->regs[aa] > bbbbbbbb) cpu->pc_bank = cc, cpu->pc = dddd;
             } break;
             case 0x00: goto finish;
             default: bad_thing_happened(cpu, MOUND_ERR_INVALID_INSTRUCTION);

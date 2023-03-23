@@ -1,4 +1,5 @@
 import sys
+from sys import exit
 from itertools import chain
 import os
 MVM_TYPE_KEYWORD = 0
@@ -21,10 +22,10 @@ KEYWORD_INSTRUCTION_TABLE = {
     "sub": 0x08,
     "mul": 0x09,
     "jmp": 0x0a,
-    "jmpe": 0x0b,
-    "jmpne": 0x0c,
-    "jmpl": 0x0d,
-    "jmpg": 0x0e,
+    "jmpre": 0x0b,
+    "jmprne": 0x0c,
+    "jmprl": 0x0d,
+    "jmprg": 0x0e,
     "push": 0x0f,
     "pop": 0x10,
     "ldr": 0x11,
@@ -36,6 +37,12 @@ KEYWORD_INSTRUCTION_TABLE = {
     "and": 0x17,
     "or": 0x18,
     "xor": 0x19,
+    "subi": 0x20,
+    "addi": 0x21,
+    "jmpie": 0x22,
+    "jmpine": 0x23,
+    "jmpil": 0x24,
+    "jmpig": 0x25,
 }
 
 class MvmCompiler:
@@ -61,12 +68,8 @@ class MvmCompiler:
         self.pc_bank = 0xf0
         print(self.toks)
     def parse(self):
-        ignore = (False, 0)
         for i in self.toks:
-            if ignore:
-                if i[0] != ignore[1]:
-                    ignore = False
-            elif i[1] in KEYWORD_INSTRUCTION_TABLE:
+            if i[1] in KEYWORD_INSTRUCTION_TABLE:
                 self.mem[self.pc_bank - BANK_OFFS][self.pc] = KEYWORD_INSTRUCTION_TABLE[i[1]]
             elif i[1].startswith("#"):
                 n = i[1][1:]
@@ -102,10 +105,15 @@ class MvmCompiler:
                 n = i[1][1:]
                 self.mem[self.pc_bank - BANK_OFFS][self.pc] = int(n, 16)
             elif i[1].startswith(";"):
-                ignore = (True, i[0])
+                t = []
+                for z in self.toks:
+                    if z[0] != i[0]:
+                        t.append(z)
+                self.toks = t
             elif ":" in i[1]:
-                self.lables[i[1][0:i[1].index(":")]] = (self.pc_bank, self.pc)
-                print("Creating label '" + str(i[1][0:i[1].index(":")]) + "' with info", (hex(self.pc_bank), hex(self.pc)))
+                self.lables[i[1][0:i[1].index(":")]] = (self.pc_bank, self.pc - 1)
+                print("Creating label '" + str(i[1][0:i[1].index(":")]) + "' with info", (hex(self.pc_bank), hex(self.pc - 1)))
+                continue
             elif i[1].startswith("$"):
                 if not i[1][1:] in self.lables:
                     print(f"Error: Label '%s' does not exist on line %d" % (i[1][1:], i[0]))
@@ -123,9 +131,18 @@ class MvmCompiler:
                 self.pc_bank += 1
     def output(self, path):
         with open(path, "wb") as f:
+            self.pc += 1
+            finished_addr = self.pc + ((self.pc_bank - BANK_OFFS) * BYTES_PER_BANK)
             fl = list(chain.from_iterable(self.mem))
-            f.write(bytes(fl))
-print(sys.argv)
+            a = 0
+            for i in range(0, finished_addr):
+                if a % 16 == 0:
+                    print("\n%08x: " % i, end = "")
+                print("%02x" % fl[i], end=" ")
+                a += 1
+            print()
+            
+            f.write(bytes(fl[0:finished_addr]))
 if len(sys.argv) != 2:
     print("Usage: \nmvmasm.exe <input mvmasm file>")
     exit(0)
